@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -16,9 +16,23 @@ const TodoList = () => {
     { text: 'Walk the dog', id: '3' },
   ]);
 
+  const [count, setCount] = useState(0);
+
   const addTodo = (text: string) => {
     setTodos([...todos, { text, id: `${Math.random()}` }]);
   };
+
+  const incrementCount = () => {
+    setCount(count + 1);
+  };
+
+  useEffect(() => {
+    console.log('useEffect todos', todos);
+  }, [todos]); // second argument limits when the effect will run, in this case when todos changes
+
+  useEffect(() => {
+    console.log('useEffect count', count);
+  }, [count]);
 
   return (
     <View style={styles.container}>
@@ -30,6 +44,9 @@ const TodoList = () => {
         keyExtractor={(todo) => todo.id}
       />
       <AddNewTodo addTodo={addTodo} />
+      <TouchableOpacity onPress={incrementCount} style={styles.buttonContainer}>
+        <Text style={styles.buttonText}>Add Score: {count}</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -37,6 +54,16 @@ const TodoList = () => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 50,
+  },
+  buttonContainer: {
+    marginTop: 10,
+    backgroundColor: 'dodgerblue',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  buttonText: {
+    color: 'white',
   },
 });
 
