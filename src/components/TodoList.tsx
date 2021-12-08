@@ -5,8 +5,9 @@ import {
   View,
   FlatList,
   TouchableOpacity,
-  Touchable,
 } from 'react-native';
+
+import AddNewTodo from './AddNewTodo';
 
 const TodoList = () => {
   const [todos, setTodos] = useState([
@@ -15,8 +16,8 @@ const TodoList = () => {
     { text: 'Walk the dog', id: '3' },
   ]);
 
-  const addTodo = () => {
-    setTodos([...todos, { text: 'Learn Hooks', id: `${Math.random()}` }]);
+  const addTodo = (text: string) => {
+    setTodos([...todos, { text, id: `${Math.random()}` }]);
   };
 
   return (
@@ -28,9 +29,7 @@ const TodoList = () => {
         }}
         keyExtractor={(todo) => todo.id}
       />
-      <TouchableOpacity onPress={addTodo} style={styles.buttonContainer}>
-        <Text style={styles.buttonText}>Add Todo</Text>
-      </TouchableOpacity>
+      <AddNewTodo addTodo={addTodo} />
     </View>
   );
 };
@@ -38,15 +37,6 @@ const TodoList = () => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 50,
-  },
-  buttonContainer: {
-    backgroundColor: 'dodgerblue',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 10,
-  },
-  buttonText: {
-    color: 'white',
   },
 });
 
